@@ -38,19 +38,19 @@ impl jack::ProcessHandler for Osc {
                     *o = self.amp * (TAU * self.phase).sin();
                 }
                 OscForm::Saw => {
-                    *o = 2.0 * self.phase;
+                    *o = self.amp * (2.0 * self.phase);
                 }
                 OscForm::Sqr => {
                     if self.phase < 0.5 {
-                        *o = -1.0;
+                        *o = self.amp * -1.0;
                     } else if self.phase >= 0.5 {
-                        *o = 1.0;
+                        *o = self.amp * 1.0;
                      }                }
                 OscForm::Tri => {
                     if self.phase < 0.5 {
-                        *o = 4.0 * self.phase - 1.0;
+                        *o = self.amp * (4.0 * self.phase - 1.0);
                     } else if self.phase >= 0.5 {
-                        *o = 4.0 * (1.0 - self.phase) - 1.0;
+                        *o = self.amp *  (4.0 * (1.0 - self.phase) - 1.0);
                     }
                 }
             }

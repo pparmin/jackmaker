@@ -21,7 +21,7 @@ fn main() {
         phase: 0.0,
         amp: 0.1,
         out: port_out,
-        form: OscForm::Sine,
+        form: OscForm::Tri,
     };
 
     let client_active = client
