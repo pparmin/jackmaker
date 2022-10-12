@@ -4,7 +4,7 @@
 
 use std::io::Read;
 
-use jackmaker::{Osc, OscForm, ShutdownHandler, read_freq};
+use jackmaker::{Osc, OscForm, ShutdownHandler};
 
 fn main() {
     // open client
@@ -19,7 +19,7 @@ fn main() {
     let sine = Osc {
         freq: 220.0,
         phase: 0.0,
-        amp: 0.2,
+        amp: 0.1,
         out: port_out,
         form: OscForm::Sine,
     };

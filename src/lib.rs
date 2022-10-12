@@ -28,17 +28,30 @@ impl jack::ProcessHandler for Osc {
         let out = self.out.as_mut_slice(ps);
 
         for o in out.iter_mut() {
+            self.phase += self.freq / sr;
+            while self.phase >= 1.0 {
+                self.phase -= 1.0;
+            }
+
             match &self.form {
                 OscForm::Sine => {
                     *o = self.amp * (TAU * self.phase).sin();
-
-                    self.phase += self.freq / sr;
-                    while self.phase >= 1.0 {
-                        self.phase -= 1.0;
-                    }
                 }
-                _ => {
-                    println!("Generating a signal for {:?} is currently not implemented", self.form);
+                OscForm::Saw => {
+                    *o = 2.0 * self.phase;
+                }
+                OscForm::Sqr => {
+                    if self.phase < 0.5 {
+                        *o = -1.0;
+                    } else if self.phase >= 0.5 {
+                        *o = 1.0;
+                     }                }
+                OscForm::Tri => {
+                    if self.phase < 0.5 {
+                        *o = 4.0 * self.phase - 1.0;
+                    } else if self.phase >= 0.5 {
+                        *o = 4.0 * (1.0 - self.phase) - 1.0;
+                    }
                 }
             }
         }
