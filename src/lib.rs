@@ -45,7 +45,8 @@ impl jack::ProcessHandler for Osc {
                         *o = self.amp * -1.0;
                     } else if self.phase >= 0.5 {
                         *o = self.amp * 1.0;
-                     }                }
+                    }                
+                }
                 OscForm::Tri => {
                     if self.phase < 0.5 {
                         *o = self.amp * (4.0 * self.phase - 1.0);
