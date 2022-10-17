@@ -4,14 +4,13 @@ use std::{io, process};
 use std::str::FromStr;
 
 
-//const M_PI: f64 = 3.14159265358979323846;
-
 #[derive(Debug)]
 pub enum OscForm {
     Sine,
     Saw,
     Sqr,
     Tri,
+    Mouse,
 }
 
 pub struct Osc {
@@ -53,6 +52,9 @@ impl jack::ProcessHandler for Osc {
                     } else if self.phase >= 0.5 {
                         *o = self.amp *  (4.0 * (1.0 - self.phase) - 1.0);
                     }
+                }
+                OscForm::Mouse => {
+
                 }
             }
         }
