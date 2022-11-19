@@ -3,7 +3,6 @@ use std::f32::consts::TAU;
 use std::{io, process};
 use std::str::FromStr;
 
-
 #[derive(Debug)]
 pub enum OscForm {
     Sine,
@@ -11,6 +10,7 @@ pub enum OscForm {
     Sqr,
     Tri,
     Mouse,
+    Test,
 }
 
 pub struct Osc {
@@ -53,10 +53,12 @@ impl jack::ProcessHandler for Osc {
                         *o = self.amp *  (4.0 * (1.0 - self.phase) - 1.0);
                     }
                 }
-                OscForm::Mouse => {
-
+                OscForm::Mouse => { }
+                OscForm::Test => {
+                    // let (mut ctx, event_loop) = ContextBuilder::new()
                 }
             }
+            println!("current sample: {}", o);
         }
     jack::Control::Continue
     }
