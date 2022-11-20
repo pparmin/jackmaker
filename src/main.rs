@@ -51,11 +51,8 @@ fn main() {
     client_active
         .as_client()
         .connect_ports_by_name("jackmaker:sine_out", "system:playback_2")
-        .expect("failed to connect port to playback_1");
+        .expect("failed to connect port to playback_2");
 
-    // while let Some(_) = read_freq() {
-    //         println!("main thread started...");
-    //     }
     std::io::stdin().read_exact(&mut [0]).unwrap_or(());
 
     client_active
