@@ -1,7 +1,8 @@
-use jack::AudioOut;
 use std::f32::consts::TAU;
 use std::{io, process};
 use std::str::FromStr;
+
+use jack::AudioOut;
 
 #[derive(Debug)]
 pub enum OscForm {
@@ -10,7 +11,12 @@ pub enum OscForm {
     Sqr,
     Tri,
     Mouse,
-    Test,
+}
+
+#[derive(Default, Debug)]
+pub struct Coordinate {
+    pub pos_x: f32,
+    pub pos_y: f32,
 }
 
 pub struct Osc {
@@ -19,6 +25,7 @@ pub struct Osc {
     pub amp: f32,
     pub out: jack::Port<AudioOut>,
     pub form: OscForm,
+    pub receiver: crossbeam_channel::Receiver<Coordinate>,
 }
 
 impl jack::ProcessHandler for Osc {
@@ -53,9 +60,9 @@ impl jack::ProcessHandler for Osc {
                         *o = self.amp *  (4.0 * (1.0 - self.phase) - 1.0);
                     }
                 }
-                OscForm::Mouse => { }
-                OscForm::Test => {
-                    // let (mut ctx, event_loop) = ContextBuilder::new()
+                OscForm::Mouse => {
+                    let coordinate = self.receiver.recv().expect("Error while receiving coordinate in audio thread");
+                    println!("Received mouse coordinate: {:?}", coordinate)
                 }
             }
             println!("current sample: {}", o);
