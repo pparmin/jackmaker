@@ -62,10 +62,11 @@ impl jack::ProcessHandler for Osc {
                 }
                 OscForm::Mouse => {
                     let coordinate = self.receiver.recv().expect("Error while receiving coordinate in audio thread");
-                    println!("Received mouse coordinate: {:?}", coordinate)
+                    println!("Received mouse coordinate: {:?} pos_x / 1000: {}", coordinate, coordinate.pos_x / 1000.0);
+                    *o = self.amp * (TAU * self.phase * (coordinate.pos_x / 1000.0)).sin();
                 }
             }
-            println!("current sample: {}", o);
+            //println!("current sample: {}", o);
         }
     jack::Control::Continue
     }
